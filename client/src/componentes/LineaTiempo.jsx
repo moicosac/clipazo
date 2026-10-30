@@ -42,14 +42,11 @@ export default function LineaTiempo({ transmision, onElegir }) {
             </text>
           </g>
         ))}
-        {Array.from({ length: marcas + 1 }, (_, k) => {
-          const i = Math.round((k / marcas) * (n - 1));
-          return (
-            <text key={k} x={xDe(i)} y={ALTO - 8} textAnchor={k === 0 ? 'start' : k === marcas ? 'end' : 'middle'} className="lt-eje">
-              {hms(Math.min(duracion_seg, i * intervalo_seg))}
-            </text>
-          );
-        })}
+        {[...new Set(Array.from({ length: marcas + 1 }, (_, k) => Math.round((k / marcas) * (n - 1))))].map((i, k, lista) => (
+          <text key={i} x={xDe(i)} y={ALTO - 8} textAnchor={k === 0 ? 'start' : k === lista.length - 1 ? 'end' : 'middle'} className="lt-eje">
+            {hms(Math.min(duracion_seg, i * intervalo_seg))}
+          </text>
+        ))}
         <path d={trazo(normalizar(serie_chat))} className="lt-chat" />
         <path d={trazo(normalizar(serie_audio))} className="lt-audio" />
         <path d={area} fill="url(#relleno-puntaje)" />
