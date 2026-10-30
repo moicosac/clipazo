@@ -34,7 +34,16 @@ export function leerMetadatos(archivo) {
     const video = document.createElement('video');
     video.preload = 'metadata';
     video.muted = true;
-    video.onloadedmetadata = () => {
+    video.onloadedmetadata = async () => {
+      // Algunos WebM/MKV (grabaciones del navegador u OBS) no traen la duración en la cabecera:
+      // al saltar al final, el navegador la calcula.
+      if (!Number.isFinite(video.duration)) {
+        await new Promise((listo) => {
+          video.ondurationchange = () => Number.isFinite(video.duration) && listo();
+          setTimeout(listo, 10000);
+          video.currentTime = 1e9;
+        });
+      }
       const datos = { duracion: video.duration, ancho: video.videoWidth, alto: video.videoHeight };
       if (!Number.isFinite(datos.duracion) || !datos.ancho) {
         rechazar(new Error('No pudimos leer este video. Prueba con un archivo MP4, MOV o WEBM.'));
