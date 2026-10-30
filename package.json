@@ -1,0 +1,34 @@
+{
+  "name": "clipazo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Clipazo: plataforma web con IA para la edición automatizada de clips para streamers emergentes (PMV).",
+  "type": "module",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "copiar-ffmpeg": "node scripts/copiar-ffmpeg.js",
+    "dev": "npm run copiar-ffmpeg && concurrently -n api,web -c magenta,cyan \"node --watch server/index.js --dev\" \"vite\"",
+    "build": "npm run copiar-ffmpeg && vite build",
+    "start": "node server/index.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.13",
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
+    "@fontsource/anton": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^9.2.5",
+    "express": "^5.3.0",
+    "pg": "^8.23.1",
+    "qrcode": "1.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.5",
+    "vite": "^6.4.5"
+  }
+}

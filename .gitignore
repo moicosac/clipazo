@@ -1,0 +1,8 @@
+node_modules/
+client/dist/
+client/public/ffmpeg/
+server/data/
+.env
+*.env
+!.env.example
+.DS_Store
